@@ -1,0 +1,23 @@
+service: invalidsignature
+provider:
+  name: aws
+  runtime: dotnetcore2.1
+  timeout: 900
+  memorySize: 128
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - lambda:InvokeFunction
+        - lambda:InvokeAsync
+      Resource: "*"
+package:
+  individually: true
+functions:
+  MainLambda:
+    handler: CsharpHandlers::AwsDotnetCsharp.Handler::MainLambda
+    package:
+      artifact: bin/release/netcoreapp2.1/hello.zip
+  WorkerLambda:
+    handler: CsharpHandlers::AwsDotnetCsharp.Handler::WorkerLambda
+    package:
+      artifact: bin/release/netcoreapp2.1/hello.zip
